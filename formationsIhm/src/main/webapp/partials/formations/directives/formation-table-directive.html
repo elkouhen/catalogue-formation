@@ -1,0 +1,11 @@
+<div class="col-xs-12">
+	<table class="table table-striped">
+		<tbody>
+			<tr ng-repeat="formation in formations">
+				<td>{{formation.titre}}</td>
+				<td>{{formation.duree}}</td>
+				<td><span class="glyphicon" ng-class="getStatus(formation)" ng-click="toggleStatus(formation)" ></span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

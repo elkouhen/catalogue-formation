@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app="formationsApp">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<!--button type="button" >
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button-->
+				<a class="navbar-brand" href="#/formations/tech-java-ee">Catalogue des Formations</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active" is-active link="/formations/tech-java-ee"><a href="#/formations/tech-java-ee">Développement Java EE</a></li>
+					<li is-active link="/formations/tech-web"><a href="#/formations/tech-web">Développement Web<span class="sr-only"></span></a></li>
+					<li is-active link="/formations/methodes-agiles"><a href="#/formations/methodes-agiles">Méthodes Agiles<span class="sr-only"></span></a></li>
+					<li is-active link="/selection"><a href="#/selection">Ma Sélection<span class="sr-only"></span></a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div class="container">
+		<div ng-view></div>
+	</div>
+	<script type="text/javascript" src="javascript/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<div class="col-xs-12">
+	<table class="table table-striped">
+		<tbody>
+			<tr ng-repeat="formation in formations" ng-show="getStatus(formation)">
+				<td>{{formation.categorie}}</td>
+				<td>{{formation.titre}}</td>
+				<td>{{formation.duree}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
