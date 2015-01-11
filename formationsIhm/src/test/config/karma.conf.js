@@ -15,8 +15,14 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'target/webapp/javascript/index.js',
-      'node_modules/angular-mocks/angular-mocks.js',
+
+      'src/main/webapp/vendors/angular/angular.js',
+      'src/main/webapp/vendors/angular-route/angular-route.js',
+      'src/main/webapp/vendors/angular-resource/angular-resource.js',
+      'src/main/webapp/vendors/angular-mocks/angular-mocks.js',
+      'src/main/webapp/javascript/index.js',
+      'src/main/webapp/javascript/formation/formation-module.js',
+      'src/main/webapp/javascript/**/*.js',
       'src/test/unit/**/*.js',
     ],
 
@@ -29,13 +35,13 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      
+      'src/main/webapp/javascript/**/*.js': 'coverage'
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots'],
+    reporters: ['dots', 'coverage'],
 
 
     // web server port

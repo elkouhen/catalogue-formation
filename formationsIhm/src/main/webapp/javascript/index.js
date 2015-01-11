@@ -2,16 +2,6 @@
 
 	'use strict';
 
-	var angular = require('./vendors/angular');
-
-	require('angular-route/angular-route');
-
-	require('angular-resource/angular-resource');
-
-	require('angular-bootstrap-temporary/ui-bootstrap.src.js');
-
-	require('./formations/formations-module'); 
-
 	angular.module('formationsApp', ['ngRoute', 'ngResource', 'formations'])
 	.config(['$routeProvider',
 		function($routeProvider) {
@@ -27,6 +17,5 @@
 			otherwise({
 				redirectTo: '/formations/tech-java-ee' 
 			});
-		}])
-	.directive('isActive', require('./directives/is-active'));
+		}]);
 })();

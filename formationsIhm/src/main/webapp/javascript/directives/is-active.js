@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	module.exports = function ($location) {
+	var isActive = function ($location) {
 		return {
 			restrict: 'A',
 			link: function(scope, element, attrs) {
@@ -17,4 +17,6 @@
 			}
 		};
 	};
+
+	angular.module('formationsApp').directive('isActive', isActive); 
 })();

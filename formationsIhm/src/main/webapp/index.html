@@ -3,19 +3,13 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<!--button type="button" >
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button-->
 				<a class="navbar-brand" href="#/formations/tech-java-ee">Catalogue des Formations</a>
 			</div>
 
@@ -33,6 +27,18 @@
 	<div class="container">
 		<div ng-view></div>
 	</div>
+
+	<script type="text/javascript" src="vendors/angular/angular.js"></script>
+	<script type="text/javascript" src="vendors/angular-route/angular-route.js"></script>
+	<script type="text/javascript" src="vendors/angular-resource/angular-resource.js"></script>
+	<script type="text/javascript" src="vendors/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
 	<script type="text/javascript" src="javascript/index.js"></script>
+	<script type="text/javascript" src="javascript/directives/is-active.js"></script>
+	<script type="text/javascript" src="javascript/formation/formation-module.js"></script>
+	<script type="text/javascript" src="javascript/formation/services/formation-service.js"></script>
+	<script type="text/javascript" src="javascript/formation/controllers/formation-list-controller.js"></script>
+	<script type="text/javascript" src="javascript/formation/controllers/selection-controller.js"></script>
+	<script type="text/javascript" src="javascript/formation/directives/formation-table-directive.js"></script>
+	<script type="text/javascript" src="javascript/formation/directives/formation-simple-table-directive.js"></script>
 </body>
 </html>

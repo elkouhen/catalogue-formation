@@ -1,36 +1,33 @@
 'use strict';
 
+
+
 describe('module Formations : ', function () {
-	beforeEach(module('formations'));
+	
+	beforeEach(module('formationsApp'));
 
 	describe('Le Controller SelectionController', function () {
-		var scope,
-		controller;
+		var scope, controller, rootScope;
 
+		beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _formationService_) {
 
-		beforeEach(function(){
-			
-			angular.mock.module('formationsApp');
+			rootScope = _$rootScope_; 
 
-			angular.module('formationsAppMock', [])
-			.service('formationService', function(){
-				this.listeFormations = function (acategorie) {
+			scope = _$rootScope_.$new();
+			controller = _$controller_;
 
-					return ['un', 'deux', 'trois']; 
-				};
-			});
+			var deferred = _$q_.defer();
 
-			angular.mock.module('formationsAppMock');
-		}); 
-
-		beforeEach(inject(function ($rootScope, $controller) {
-			scope = $rootScope.$new();
-			controller = $controller;
+			deferred.resolve(['un']);
+			spyOn(_formationService_, 'listeFormations').andReturn(deferred.promise);
 		}));
 
 		it('initialise la variable de scope formations', function () {
-			controller('SelectionController', {$scope: scope, $routeParams: {id: '1'}});
-			expect(scope.formations.length).toBe(3);
+			controller('SelectionController', {$scope: scope});
+
+			rootScope.$apply(); 
+
+			expect(scope.formations.length).toBe(1);
 		});
 	});
 });
