@@ -8,9 +8,9 @@
         beforeEach(module('formationsApp'));
 
         describe('Le service formationService', function () {
-            var scope, service;
+            var scope, service, $httpBackend;
 
-            beforeEach(inject(function (_$rootScope_, _$q_, _formationService_) {
+            beforeEach(inject(function (_$rootScope_, _$q_, _$httpBackend_, _formationService_) {
                 service = _formationService_;
 
                 var store = {};
@@ -24,7 +24,34 @@
                 spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
                     store[key] = value + '';
                 });
+
+                _$httpBackend_.expectGET('services/formations?categorie=coucou').respond([]); 
+                      
+                $httpBackend = _$httpBackend_; 
+                
+                _$httpBackend_.expectGET('services/formations')
+                    .respond(['full']);
             }));
+
+            it('TEST 1', function () {
+
+                // 
+                
+                var formations = service.listeFormations(); 
+                
+                $httpBackend.flush();
+                
+                expect(formations.$$state.value.length).toBe(1);
+            });
+            
+            it('TEST 2', function () {
+
+                 var formations = service.listeFormations('coucou'); 
+                
+                $httpBackend.flush();
+                
+                expect(formations.$$state.value.length).toBe(0);
+            });
 
             it('.getStatus retourne le statut d\'une formation (stocké dans le localStorage)', function () {
 
