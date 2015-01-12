@@ -15,8 +15,8 @@
 
                 var store = {};
 
-                store['FRS_FRM1'] = true;
-                store['FRS_FRM2'] = false;
+                store.FRS_FRM1 = true;
+                store.FRS_FRM2 = false;
 
                 spyOn(localStorage, 'getItem').and.callFake(function (key) {
                     return store[key];

@@ -25,7 +25,7 @@ gulp.task('build-fonts', function () {
 });
 
 gulp.task('lint-js', function () {
-    return gulp.src('./src/main/webapp/javascript/**/*.js')
+    return gulp.src(['./src/main/webapp/javascript/**/*.js', 'src/test/**/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -47,7 +47,7 @@ gulp.task('test', function () {
     // Be sure to return the stream
     return gulp.src(files)
         .pipe(karma({
-            configFile: 'src/test/config/karma.conf.js',
+            configFile: 'src/test/config/karma.release.js',
             action: 'run'
         }))
         .on('error', function (err) {
