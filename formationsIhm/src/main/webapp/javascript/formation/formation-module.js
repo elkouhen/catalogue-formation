@@ -1,7 +1,8 @@
+/*global angular */
 (function () {
 
-    'use strict';
+  'use strict';
 
-    angular.module('formations', []);
+  angular.module('formations', []);
 
 }());
