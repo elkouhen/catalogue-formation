@@ -1,22 +1,24 @@
-(function ()  {
+(function () {
 
-	'use strict';
+    'use strict';
 
-	var isActive = function ($location) {
-		return {
-			restrict: 'A',
-			link: function(scope, element, attrs) {
-						
-				scope.$watch(function () { return $location.path(); }, function(newPath) {
-					if (attrs.link === newPath) {
-						element.addClass('active'); 
-					} else {
-						element.removeClass('active');
-					}
-				});
-			}
-		};
-	};
+    var isActive = function ($location) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
 
-	angular.module('formationsApp').directive('isActive', isActive); 
-})();
+                scope.$watch(function () {
+                    return $location.path();
+                }, function (newPath) {
+                    if (attrs.link === newPath) {
+                        element.addClass('active');
+                    } else {
+                        element.removeClass('active');
+                    }
+                });
+            }
+        };
+    };
+
+    angular.module('formationsApp').directive('isActive', isActive);
+}());
