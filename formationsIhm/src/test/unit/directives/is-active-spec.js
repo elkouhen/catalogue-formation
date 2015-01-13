@@ -12,9 +12,7 @@
 
       beforeEach(inject(function (_$rootScope_, _$location_, _$compile_) {
         scope = _$rootScope_.$new();
-
         location = _$location_;
-
         compile = _$compile_;
       }));
 
@@ -24,25 +22,24 @@
           return '/mypartial';
         });
 
-        var element = compile(angular.element('<div is-active link="/mypartial"> </div>'))(scope);
+        var element = compile(angular.element('<div is-active link="/mypartial"></div>'))(scope);
 
         scope.$digest();
 
-        expect(element[0].classList).toContain('active');
-        // XXX expect(element[0]).toHaveClass('active');
+        expect(element.hasClass('active')).toBe(true);
       });
 
-      it('désactive l\'élément cible si la page courante n\'est celle passée dans l\'attribut link', function () {
+      it('désactive l\'élément cible si la page courante n\'est pas celle passée dans l\'attribut link', function () {
 
         spyOn(location, 'path').and.callFake(function (key) {
           return '/mypartial2';
         });
 
-        var element = compile(angular.element('<div is-active link="/mypartial"> </div>'))(scope);
+        var element = compile(angular.element('<div is-active link="/mypartial"></div>'))(scope);
 
         scope.$digest();
 
-        expect(element[0].classList).not.toContain('active');
+        expect(element.hasClass('active')).toBe(false);
       });
     });
   });

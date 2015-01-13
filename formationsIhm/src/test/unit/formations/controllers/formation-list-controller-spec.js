@@ -8,10 +8,11 @@
     beforeEach(module('formationsApp'));
 
     describe('Le Controller FormationListController', function () {
-      var scope, controller;
+      var scope, controller, rootScope;
 
       beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _formationService_) {
 
+        rootScope = _$rootScope_;
         scope = _$rootScope_.$new();
         controller = _$controller_;
 
@@ -35,9 +36,21 @@
           $scope: scope
         });
 
-        expect(scope.formations.$$state.value[0].titre).toBeDefined();
-        expect(scope.formations.$$state.value[0].categorie).toBeDefined();
-        expect(scope.formations.$$state.value[0].duree).toBeDefined();
+        var result;
+
+        scope.formations.then(function (value) {
+
+          result = value;
+        });
+
+        rootScope.$apply();
+
+        expect(result[0]).toEqual({
+          id: '1',
+          categorie: 'tech-java-ee',
+          titre: 'Programmation orientée objet en Java',
+          duree: '4j'
+        });
       });
     });
   });

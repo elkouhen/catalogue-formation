@@ -1,3 +1,5 @@
+/*global require */ 
+
 var gulp = require('gulp');
 var watch = require('gulp-watch');
 var jshint = require('gulp-jshint');
@@ -50,6 +52,7 @@ gulp.task('test', function () {
       'src/main/webapp/vendors/angular-route/angular-route.js',
       'src/main/webapp/vendors/angular-resource/angular-resource.js',
       'src/main/webapp/vendors/angular-mocks/angular-mocks.js',
+      'src/main/webapp/vendors/angular-jasmine-matchers/dist/matchers.js',
       'src/main/webapp/javascript/index.js',
       'src/main/webapp/javascript/formation/formation-module.js',
       'src/main/webapp/javascript/**/*.js',
