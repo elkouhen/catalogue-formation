@@ -1,4 +1,4 @@
-/*global require */ 
+/*global require */
 
 var gulp = require('gulp');
 var watch = require('gulp-watch');
@@ -8,13 +8,19 @@ var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
+var webdriverStandalone = require("gulp-protractor").webdriver_standalone;
+var protractor = require("gulp-protractor").protractor;
 
 gulp.task('default', function () {
+  gulp.start('build');
+});
+
+gulp.task('build', function () {
   gulp.start('lint-js', 'usemin', 'build-html', 'build-fonts');
 });
 
 gulp.task('watch', function () {
-  // calls 'build-js' whenever anything changes
+  // calls 'lint-js' whenever anything changes
   gulp.watch('src/main/webapp/**/*.js', ['lint-js']);
 });
 
@@ -44,7 +50,7 @@ gulp.task('lint-js', function () {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('test', function () {
+gulp.task('unit', function () {
 
   var files = [
 
@@ -70,3 +76,18 @@ gulp.task('test', function () {
       throw err;
     });
 });
+
+gulp.task('e2e', function () {
+
+  gulp.src(["./src/tests/*.js"])
+    .pipe(protractor({
+      configFile: "src/test/config/protractor.conf.js"/* ,
+      args: ['--baseUrl', 'http://127.0.0.1:8000'] */
+    }))
+    .on('error', function (e) {
+      throw e
+    })
+
+});
+
+gulp.task('webdriver_standalone', webdriverStandalone);
