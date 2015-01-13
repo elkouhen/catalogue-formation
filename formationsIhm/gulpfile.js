@@ -8,8 +8,8 @@ var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
-var webdriverStandalone = require("gulp-protractor").webdriver_standalone;
-var protractor = require("gulp-protractor").protractor;
+var webdriverStandalone = require('gulp-protractor').webdriver_standalone;
+var protractor = require('gulp-protractor').protractor;
 
 gulp.task('default', function () {
   gulp.start('build');
@@ -79,14 +79,13 @@ gulp.task('unit', function () {
 
 gulp.task('e2e', function () {
 
-  gulp.src(["./src/tests/*.js"])
+  gulp.src(['./src/tests/*.js'])
     .pipe(protractor({
-      configFile: "src/test/config/protractor.conf.js"/* ,
-      args: ['--baseUrl', 'http://127.0.0.1:8000'] */
+      configFile: 'src/test/config/protractor.conf.js'
     }))
     .on('error', function (e) {
-      throw e
-    })
+      throw e;
+    });
 
 });
 
