@@ -1,11 +1,9 @@
-<div class="col-xs-12">
-    <table class="table table-striped">
-        <tbody>
-            <tr ng-repeat="formation in formations" ng-show="getStatus(formation)">
-                <td>{{formation.categorie}}</td>
-                <td>{{formation.titre}}</td>
-                <td>{{formation.duree}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<ion-list>
+  <ion-item ng-repeat="formation in formations" ng-if="getStatus(formation)">
+    <div class="row">
+      <p class="col col-30">{{formation.categorie}}</p>
+      <p class="col col-60">{{formation.titre}}</p>
+      <p class="col col-10">{{formation.duree}}</p>
+    </div>
+  </ion-item>
+</ion-list>

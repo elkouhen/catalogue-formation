@@ -17,51 +17,19 @@ angular.module('formationsApp', ['ionic', 'ngResource', 'formations'])
   });
 })
 
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $provide) {
+
   $stateProvider
-    .state('app', {
-      url: '/app',
-      abstract: true,
-      templateUrl: 'templates/menu.html'
-      /* ,
-      controller: 'AppCtrl' */
+    .state('formations', {
+      url: '/formations/:id',
+      templateUrl: 'partials/formations/formation-table.html',
+      controller: 'FormationListController'
     })
-    .state('app.java-ee', {
-      url: '/formations/tech-java-ee',
-      views: {
-        'tab-java-ee': {
-          templateUrl: 'partials/formations/formation-table.html',
-          controller: 'FormationListController'
-        }
-      }
-    })
-    .state('app.web', {
-      url: '/formations/tech-web',
-      views: {
-        'tab-web': {
-          templateUrl: 'partials/formations/formation-table.html',
-          controller: 'FormationListController'
-        }
-      }
-    })
-    .state('app.methodes-agiles', {
-      url: '/formations/methodes-agiles',
-      views: {
-        'tab-methodes-agiles': {
-          templateUrl: 'partials/formations/formation-table.html',
-          controller: 'FormationListController'
-        }
-      }
-    })
-    .state('app.selection', {
+    .state('selection', {
       url: '/selection',
-      views: {
-        'tab-web': {
-          templateUrl: 'partials/formations/formation-simple-table.html',
-          controller: 'FormationListController'
-        }
-      }
+      templateUrl: 'partials/formations/formation-simple-table.html',
+      controller: 'FormationListController'
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/formations/tech-java-ee');
+  $urlRouterProvider.otherwise('/selection');
 });

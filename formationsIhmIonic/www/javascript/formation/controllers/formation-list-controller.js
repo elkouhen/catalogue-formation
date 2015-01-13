@@ -3,15 +3,15 @@
 
   'use strict';
 
-  var FormationListController = function ($scope, /* $routeParams, */ formationService) {
+  var FormationListController = function ($scope, $stateParams, formationService) {
 
-    /* if ($routeParams.id) {
-      $scope.formations = formationService.listeFormations($routeParams.id);
-    } else {*/
-    $scope.formations = formationService.listeFormations();
-    /* } */
+    if ($stateParams.id) {
+      $scope.formations = formationService.listeFormations($stateParams.id);
+    } else {
+      $scope.formations = formationService.listeFormations();
+    }
   };
 
   angular.module('formations')
-    .controller('FormationListController', ['$scope', /* '$routeParams',*/ 'formationService', FormationListController]);
+    .controller('FormationListController', ['$scope', '$stateParams', 'formationService', FormationListController]);
 }());
