@@ -1,10 +1,12 @@
 <ion-list>
-  <ion-item ng-repeat="formation in formations">
+  <ion-item ng-repeat="formation in formations" ng-click="toggleStatus(formation)">
     <div class="row">
       <p class="col col-80">{{formation.titre}}</p>
-      <p class="col col-10">{{formation.duree}}</p>
-      <p class="col col-10"><span class="ion" ng-class="getStatus(formation)" ng-click="toggleStatus(formation)"></span>
+      <p class="col col-10">{{formation.duree}}
       </p>
+      <ion-option-button class="col col-10" >
+        <i class="ion" ng-class="getStatus(formation)"></i>
+      </ion-option-button>
     </div>
-  </ion-item>
+    </io-n-item>
 </ion-list>
