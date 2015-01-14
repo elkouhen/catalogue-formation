@@ -1,21 +1,32 @@
-var _ = require('lodash');
-var buildConfig = require('./config/build.config.js');
-var changelog = require('conventional-changelog');
-var connect = require('connect');
-var dgeni = require('dgeni');
-var http = require('http');
-var cp = require('child_process');
+var GithubApi = require('github');
 var gulp = require('gulp');
+var path = require('canonical-path');
 var pkg = require('./package.json');
+var request = require('request');
+var q = require('q');
 var semver = require('semver');
 var through = require('through');
 
 var argv = require('minimist')(process.argv.slice(2));
 
+var _ = require('lodash');
+var buildConfig = require('./config/build.config.js');
+var changelog = require('conventional-changelog');
+var es = require('event-stream');
+var irc = require('ircb');
+var marked = require('marked');
+var mkdirp = require('mkdirp');
+var twitter = require('node-twitter-api');
+
+var cp = require('child_process');
+var fs = require('fs');
+
 var concat = require('gulp-concat');
+var footer = require('gulp-footer');
 var gulpif = require('gulp-if');
 var header = require('gulp-header');
 var jshint = require('gulp-jshint');
+var jscs = require('gulp-jscs');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
@@ -34,39 +45,63 @@ if (IS_RELEASE_BUILD) {
   );
 }
 
+/**
+ * Load Test Tasks
+ */
+require('./config/gulp-tasks/test')(gulp, argv);
+
+/**
+ * Load Docs Tasks
+ */
+require('./config/gulp-tasks/docs')(gulp, argv);
+
+if (argv.dist) {
+  buildConfig.dist = argv.dist;
+}
 
 gulp.task('default', ['build']);
 gulp.task('build', ['bundle', 'sass']);
-
-gulp.task('docs', function(done) {
-  var docVersion = argv['doc-version'];
-  if (docVersion != 'nightly' && !semver.valid(docVersion)) {
-    console.log('Usage: gulp docs --doc-version=(nightly|versionName)');
-    return process.exit(1);
-  }
-  process.env.DOC_VERSION = docVersion;
-  return dgeni('docs/docs.config.js').generateDocs().then(function() {
-    gutil.log('Docs for', gutil.colors.cyan(docVersion), 'generated!');
-  });
-});
+gulp.task('validate', ['jshint', 'ddescribe-iit', 'karma']);
 
 var IS_WATCH = false;
-gulp.task('watch', function() {
+gulp.task('watch', ['build'], function() {
   IS_WATCH = true;
   gulp.watch('js/**/*.js', ['bundle']);
   gulp.watch('scss/**/*.scss', ['sass']);
 });
 
-gulp.task('changelog', function(done) {
-  changelog({
-    repository: pkg.repository.url,
-    version: pkg.version,
-  }, function(err, data) {
-    if (err) return done(err);
-    require('fs').writeFileSync('CHANGELOG.md', data);
-    done();
+gulp.task('changelog', function() {
+  var dest = argv.dest || 'CHANGELOG.md';
+  var toHtml = !!argv.html;
+  return makeChangelog(argv).then(function(log) {
+    if (toHtml) {
+      log = marked(log, {
+        gfm: true
+      });
+    }
+    fs.writeFileSync(dest, log);
   });
 });
+
+function makeChangelog(options) {
+  var codename = pkg.codename;
+  var file = options.standalone ? '' : __dirname + '/CHANGELOG.md';
+  var subtitle = options.subtitle || '"' + codename + '"';
+  var from = options.from;
+  var version = options.version || pkg.version;
+  var deferred = q.defer();
+  changelog({
+    repository: 'https://github.com/driftyco/ionic',
+    version: version,
+    subtitle: subtitle,
+    file: file,
+    from: from
+  }, function(err, log) {
+    if (err) deferred.reject(err);
+    else deferred.resolve(log);
+  });
+  return deferred.promise;
+}
 
 gulp.task('bundle', [
   'scripts',
@@ -74,32 +109,48 @@ gulp.task('bundle', [
   'vendor',
   'version',
 ], function() {
-  IS_RELEASE_BUILD && gulp.src(buildConfig.ionicBundleFiles.map(function(src) {
+  gulp.src(buildConfig.ionicBundleFiles.map(function(src) {
       return src.replace(/.js$/, '.min.js');
-    }))
+    }), {
+      base: buildConfig.dist,
+      cwd: buildConfig.dist
+    })
       .pipe(header(buildConfig.bundleBanner))
       .pipe(concat('ionic.bundle.min.js'))
-      .pipe(gulp.dest(buildConfig.distJs));
+      .pipe(gulp.dest(buildConfig.dist + '/js'));
 
-  return gulp.src(buildConfig.ionicBundleFiles)
+  return gulp.src(buildConfig.ionicBundleFiles, {
+    base: buildConfig.dist,
+    cwd: buildConfig.dist
+  })
     .pipe(header(buildConfig.bundleBanner))
     .pipe(concat('ionic.bundle.js'))
-    .pipe(gulp.dest(buildConfig.distJs));
+    .pipe(gulp.dest(buildConfig.dist + '/js'));
+});
+
+gulp.task('jscs', function() {
+  return gulp.src(['js/angular/**/*.js'])
+    .pipe(jscs({
+      configPath: '.jscs.json'
+    }));
 });
 
 gulp.task('jshint', function() {
-  return gulp.src(['js/**/*.js', 'test/**/*.js'])
+  return gulp.src(['js/**/*.js'])
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter(require('jshint-summary')({
+      fileColCol: ',bold',
+      positionCol: ',bold',
+      codeCol: 'green,bold',
+      reasonCol: 'cyan'
+    })))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('ddescribe-iit', function() {
   return gulp.src(['test/**/*.js', 'js/**/*.js'])
     .pipe(notContains([
-      'ddescribe',
-      'iit',
-      'xit',
-      'xdescribe'
+      'ddescribe', 'iit', 'xit', 'xdescribe'
     ]));
 });
 
@@ -114,25 +165,30 @@ gulp.task('vendor', function() {
 gulp.task('scripts', function() {
   return gulp.src(buildConfig.ionicFiles)
     .pipe(gulpif(IS_RELEASE_BUILD, stripDebug()))
+    .pipe(template({ pkg: pkg }))
     .pipe(concat('ionic.js'))
+    .pipe(header(buildConfig.closureStart))
+    .pipe(footer(buildConfig.closureEnd))
     .pipe(header(banner))
-    .pipe(gulp.dest(buildConfig.distJs))
+    .pipe(gulp.dest(buildConfig.dist + '/js'))
     .pipe(gulpif(IS_RELEASE_BUILD, uglify()))
     .pipe(rename({ extname: '.min.js' }))
     .pipe(header(banner))
-    .pipe(gulp.dest(buildConfig.distJs));
+    .pipe(gulp.dest(buildConfig.dist + '/js'));
 });
 
 gulp.task('scripts-ng', function() {
   return gulp.src(buildConfig.angularIonicFiles)
-    // .pipe(gulpif(IS_RELEASE_BUILD, stripDebug()))
+    .pipe(gulpif(IS_RELEASE_BUILD, stripDebug()))
     .pipe(concat('ionic-angular.js'))
+    .pipe(header(buildConfig.closureStart))
+    .pipe(footer(buildConfig.closureEnd))
     .pipe(header(banner))
-    .pipe(gulp.dest(buildConfig.distJs))
+    .pipe(gulp.dest(buildConfig.dist + '/js'))
     .pipe(gulpif(IS_RELEASE_BUILD, uglify()))
     .pipe(rename({ extname: '.min.js' }))
     .pipe(header(banner))
-    .pipe(gulp.dest(buildConfig.distJs));
+    .pipe(gulp.dest(buildConfig.dist + '/js'));
 });
 
 gulp.task('sass', function(done) {
@@ -149,14 +205,10 @@ gulp.task('sass', function(done) {
       }
     }))
     .pipe(concat('ionic.css'))
-    .pipe(header(banner))
-    .pipe(gulp.dest(buildConfig.distCss))
-    .pipe(gulpif(IS_RELEASE_BUILD, minifyCss({
-      keepSpecialComments: 0
-    })))
+    .pipe(gulp.dest(buildConfig.dist + '/css'))
+    .pipe(gulpif(IS_RELEASE_BUILD, minifyCss()))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(header(banner))
-    .pipe(gulp.dest(buildConfig.distCss))
+    .pipe(gulp.dest(buildConfig.dist + '/css'))
     .on('end', done);
 });
 
@@ -173,86 +225,118 @@ gulp.task('version', function() {
       time: time
     }))
     .pipe(rename('version.json'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest(buildConfig.dist));
 });
 
-
-gulp.task('sauce-connect', sauceConnect);
-
-gulp.task('cloudtest', ['protractor-sauce'], function(cb) {
-  sauceDisconnect(cb);
+gulp.task('release-tweet', function(done) {
+  var oauth = {
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    accessToken: process.env.TWITTER_ACCESS_TOKEN,
+    accessTokenSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  };
+  var client = new twitter(oauth);
+  client.statuses(
+    'update',
+    {
+      status: argv.test ?
+        'This is a test.' :
+        buildConfig.releaseMessage()
+    },
+    oauth.accessToken,
+    oauth.accessTokenSecret,
+    done
+  );
 });
 
-gulp.task('karma', function(cb) {
-  return karma(cb, ['config/karma.conf.js', '--single-run=true']);
-});
-gulp.task('karma-watch', function(cb) {
-  return karma(cb, ['config/karma.conf.js']);
-});
-
-var connectServer;
-gulp.task('connect-server', function() {
-  var app = connect().use(connect.static(__dirname));
-  connectServer = http.createServer(app).listen(8765);
-});
-gulp.task('protractor', ['connect-server'], function(cb) {
-  return protractor(cb, ['config/protractor.conf.js']);
-});
-gulp.task('protractor-sauce', ['sauce-connect', 'connect-server'], function(cb) {
-  return protractor(cb, ['config/protractor-sauce.conf.js']);
-});
-
-function karma(cb, args) {
-  if (argv.browsers) {
-    args.push('--browsers='+argv.browsers.trim());
-  }
-  if (argv.reporters) {
-    args.push('--reporters='+argv.reporters.trim());
-  }
-  cp.spawn('node', [
-    './node_modules/karma/bin/karma',
-    'start'
-  ].concat(args), { stdio: 'inherit' })
-  .on('exit', function(code) {
-    if (code) return cb('Karma test(s) failed. Exit code: ' + code);
-    cb();
+gulp.task('release-irc', function(done) {
+  var client = irc({
+    host: 'irc.freenode.net',
+    secure: true,
+    nick: 'ionitron',
+    username: 'ionitron',
+    realName: 'ionitron',
+    channels: ['#ionic']
+  }, function() {
+    client.say('#ionic', argv.test ? 'This is a test.' : buildConfig.releaseMessage(), function() {
+      client.quit('', done);
+    });
   });
-}
+});
 
-function pad(n) {
-  if (n<10) { return '0' + n; }
-  return n;
-}
-
-function protractor(cb, args) {
-  cp.spawn('protractor', args, { stdio: 'inherit' })
-  .on('exit', function(code) {
-    connectServer && connectServer.close();
-    if (code) return cb('Protector test(s) failed. Exit code: ' + code);
-    cb();
+gulp.task('release-github', function(done) {
+  var github = new GithubApi({
+    version: '3.0.0'
   });
-}
-
-var sauceInstance;
-function sauceConnect(cb) {
-  require('sauce-connect-launcher')({
-    username: process.env.SAUCE_USER,
-    accessKey: process.env.SAUCE_KEY,
-    verbose: true,
-    tunnelIdentifier: process.env.TRAVIS_BUILD_NUMBER
-  }, function(err, instance) {
-    if (err) return cb('Failed to launch sauce connect!');
-    sauceInstance = instance;
-    cb();
+  github.authenticate({
+    type: 'oauth',
+    token: process.env.GH_TOKEN
   });
-}
+  makeChangelog({
+    standalone: true
+  })
+  .then(function(log) {
+    var version = 'v' + pkg.version;
+    github.releases.createRelease({
+      owner: 'driftyco',
+      repo: 'ionic',
+      tag_name: version,
+      name: version + ' "' + pkg.codename + '"',
+      body: log
+    }, done);
+  })
+  .fail(done);
+});
 
-function sauceDisconnect(cb) {
-  if (sauceInstance) {
-    return sauceInstance.close(cb);
+gulp.task('release-discourse', function(done) {
+  var oldPostUrl = buildConfig.releasePostUrl;
+  var newPostUrl;
+
+  return makeChangelog({
+    standalone: true
+  })
+  .then(function(changelog) {
+    var content = 'Download Instructions: https://github.com/driftyco/ionic#quick-start\n\n' + changelog;
+    return qRequest({
+      url: 'http://forum.ionicframework.com/posts',
+      method: 'post',
+      form: {
+        api_key: process.env.DISCOURSE_TOKEN,
+        api_username: 'Ionitron',
+        title: argv.test ?
+          ('This is a test. ' + Date.now()) :
+          'v' + pkg.version + ' "' + pkg.codename + '" released!',
+        raw: argv.test ?
+          ('This is a test. Again! ' + Date.now()) :
+          content
+      }
+    });
+  })
+  .then(function(res) {
+    var body = JSON.parse(res.body);
+    newPostUrl = 'http://forum.ionicframework.com/t/' + body.topic_slug + '/' + body.topic_id;
+    fs.writeFileSync(buildConfig.releasePostFile, newPostUrl);
+
+    return q.all([
+      updatePost(newPostUrl, 'closed', true),
+      updatePost(newPostUrl, 'pinned', true),
+      oldPostUrl && updatePost(oldPostUrl, 'pinned', false)
+    ]);
+  });
+
+  function updatePost(url, statusType, isEnabled) {
+    return qRequest({
+      url: url + '/status',
+      method: 'put',
+      form: {
+        api_key: process.env.DISCOURSE_TOKEN,
+        api_username: 'Ionitron',
+        status: statusType,
+        enabled: !!isEnabled
+      }
+    });
   }
-  cb();
-}
+});
 
 function notContains(disallowed) {
   disallowed = disallowed || [];
@@ -281,4 +365,16 @@ function notContains(disallowed) {
     // Return the match accounting for the first submatch length.
     return match !== null ? match.index + match[1].length : -1;
   }
+}
+function pad(n) {
+  if (n<10) { return '0' + n; }
+  return n;
+}
+function qRequest(opts) {
+  var deferred = q.defer();
+  request(opts, function(err, res, body) {
+    if (err) deferred.reject(err);
+    else deferred.resolve(res);
+  });
+  return deferred.promise;
 }

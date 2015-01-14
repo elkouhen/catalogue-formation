@@ -20,16 +20,33 @@ angular.module('formationsApp', ['ionic', 'ngResource', 'formations'])
 .config(function ($stateProvider, $urlRouterProvider, $provide) {
 
   $stateProvider
-    .state('formations', {
-      url: '/formations/:id',
-      templateUrl: 'partials/formations/formation-table.html',
-      controller: 'FormationListController'
+    .state('app', {
+      url: '/app',
+      abstract: true,
+      controller: 'MenuController',
+      templateUrl: 'partials/menus.html'
     })
-    .state('selection', {
-      url: '/selection',
-      templateUrl: 'partials/formations/formation-simple-table.html',
-      controller: 'FormationListController'
+    .state('app.formations', {
+      url: '/formations/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'partials/formations/formation-table.html',
+          controller: 'FormationListController'
+        }
+      }
+    })
+    .state('app.selection', {
+      url: '/maselection',
+      views: {
+        'menuContent': {
+          templateUrl: 'partials/formations/formation-simple-table.html',
+          controller: 'FormationListController'
+        }
+      }
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/selection');
-});
+  $urlRouterProvider.otherwise('/app/maselection');
+})
+  .controller('MenuController', function ($scope, $ionicSideMenuDelegate) {
+
+  });
