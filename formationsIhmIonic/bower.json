@@ -13,7 +13,7 @@
     "tests"
   ],
   "devDependencies": {
-    "ionic": "1.0.0-beta.14",
+    "ionic": "~0.9.27",
     "angular-resource": "1.3.6",
     "ionicons": "~2.0.0"
   }
