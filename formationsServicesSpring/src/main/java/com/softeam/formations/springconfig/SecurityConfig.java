@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -20,7 +21,10 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 @Configuration
-class SecurityConfig {
+@EnableWebMvcSecurity ( )
+@EnableGlobalMethodSecurity (securedEnabled = true)
+class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Configuration
     @EnableResourceServer
     protected static class ResourceServer extends ResourceServerConfigurerAdapter {
@@ -70,7 +74,7 @@ class SecurityConfig {
                     .scopes("read", "trust")
                     .resourceIds("formations")
                     .redirectUris("http://localhost:3000")
-                    .secret("pascool")
+                    .secret("my-client-with-registered-redirect-secret")
                     .and()
                     .withClient("my-client-with-secret")
                     .authorizedGrantTypes("client_credentials", "password")
@@ -87,7 +91,7 @@ class SecurityConfig {
 
         @Override
         public void init(AuthenticationManagerBuilder auth) throws Exception {
-            auth.inMemoryAuthentication().withUser("user1").password("password1").roles("USER");
+            auth.inMemoryAuthentication().withUser("user1").password("password1").roles("USER", "ADMIN");
         }
     }
 }
