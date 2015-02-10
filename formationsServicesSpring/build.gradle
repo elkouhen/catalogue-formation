@@ -1,19 +1,22 @@
-
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.bluepapa32.watch'
 
 buildscript {
     repositories {
         mavenCentral()
+	jcenter()
     }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE"
-        classpath 'org.springframework:springloaded:1.2.0.RELEASE'
 
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE'
+        classpath 'org.springframework:springloaded:1.2.1'
+	classpath 'com.github.ben-manes:gradle-versions-plugin:0.7'
+	classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'	
     }
 }
-
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
 
 jar {
     baseName = 'formations'
@@ -26,17 +29,21 @@ repositories {
 
 dependencies {
 
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: 'spring-boot-starter-tomcat'
     }
 
-    compile "org.springframework.boot:spring-boot-starter-jetty"
+    compile 'org.springframework.boot:spring-boot-starter-jetty'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.projectlombok:lombok:1.16.0'
+}
 
-    compile "org.springframework.boot:spring-boot-starter-actuator"
+watch {
 
-    compile "org.projectlombok:lombok:1.14.8"
-
-    compile "org.springframework.security.oauth:spring-security-oauth2:2.0.5.RELEASE"
+    java {
+        files files('src/main/java')
+        tasks 'compileJava'
+    }
 }
 
 task wrapper(type: Wrapper) {
