@@ -1,1 +1,1 @@
-sudo docker build -t elkouhen/front .
+docker build -t elkouhen/formations-ihm .
