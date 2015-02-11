@@ -10,3 +10,5 @@ VOLUME /app
 WORKDIR /app
 
 EXPOSE 80 
+
+CMD /usr/sbin/apache2ctl -D FOREGROUND

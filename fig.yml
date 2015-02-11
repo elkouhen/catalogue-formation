@@ -1,0 +1,14 @@
+services: 
+  build: formationsServices
+  volumes:
+   - formationsServices:/app
+  ports: 
+   - "8081:3000"
+ihm: 
+  build: formationsIhm
+  volumes: 
+   - formationsIhm/src/main/webapp:/app
+  ports: 
+   - "8080:80"
+  links: 
+   - services:services
