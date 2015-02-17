@@ -1,22 +1,26 @@
-services: 
+services:
   build: formationsServices
   volumes:
    - formationsServices:/app
-  ports: 
+  ports:
    - "8090:3000"
-ihm: 
+ambassador:
+  image: cpuguy83/docker-grand-ambassador
+  links:
+    - services:services
+ihm:
   build: formationsIhm
-  volumes: 
+  volumes:
    - formationsIhm/src/main/webapp:/app
-  ports: 
+  ports:
    - "8080:80"
-  links: 
-   - services:services
-ihmmobile: 
+  links:
+   - ambassador:services
+ihmmobile:
   build: formationsIhmIonic
-  volumes: 
+  volumes:
    - formationsIhmIonic/www:/app
-  ports: 
+  ports:
    - "8081:80"
-  links: 
-   - services:services
+  links:
+   - ambassador:services
