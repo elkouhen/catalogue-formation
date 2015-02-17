@@ -5,7 +5,7 @@
 
   var formationService = function ($resource) {
 
-    this.resource = $resource('services/formations');
+    this.resource = $resource('http://elkouhen-softeam-E6540:8090/formations');
 
     this.listeFormations = function (acategorie) {
 

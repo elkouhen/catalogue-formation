@@ -10,7 +10,7 @@ var db = low('db.json', {
 /* GET formations listing. */
 router.get('/', function(req, res) {
 
-	var query = {}; 
+	var query = {};
 
 	if (req.query.categorie){
 		res.status(200).send(db('formations').where({ categorie : req.query.categorie}).value());

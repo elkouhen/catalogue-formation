@@ -3,12 +3,20 @@ services:
   volumes:
    - formationsServices:/app
   ports: 
-   - "8081:3000"
+   - "8090:3000"
 ihm: 
   build: formationsIhm
   volumes: 
    - formationsIhm/src/main/webapp:/app
   ports: 
    - "8080:80"
+  links: 
+   - services:services
+ihmmobile: 
+  build: formationsIhmIonic
+  volumes: 
+   - formationsIhmIonic/www:/app
+  ports: 
+   - "8081:80"
   links: 
    - services:services
