@@ -21,5 +21,8 @@
     "angular-resource": "~1.3.8",
     "angular-mocks": "~1.3.8",
     "angularjs-jasmine-matchers": "*"
+  },
+  "dependencies": {
+    "oauth-ng": "~0.3.8"
   }
 }

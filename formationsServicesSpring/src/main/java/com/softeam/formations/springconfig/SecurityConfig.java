@@ -71,8 +71,9 @@ class SecurityConfig {
 					.authorizedGrantTypes("authorization_code")
 					.authorities("ROLE_CLIENT").scopes("read", "trust")
 					.resourceIds("formations")
-					.redirectUris("http://localhost:3000").secret("pascool")
-					.and().withClient("my-client-with-secret")
+					.redirectUris("http://localhost/formations/")
+					.secret("pascool").and()
+					.withClient("my-client-with-secret")
 					.authorizedGrantTypes("client_credentials", "password")
 					.authorities("ROLE_CLIENT").scopes("read")
 					.resourceIds("formations").secret("secret");
@@ -86,8 +87,10 @@ class SecurityConfig {
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().withUser("user1")
-					.password("password1").roles("USER");
+			auth.inMemoryAuthentication()
+			// @formatter:off
+					.withUser("user1").password("password1").roles("USER");
+			// @formatter:on
 		}
 	}
 }

@@ -8,7 +8,7 @@
       scope: {
         formations: '='
       },
-      templateUrl: 'partials/formations/directives/formation-table-directive.html',
+      templateUrl: '/formations/partials/formations/directives/formation-table-directive.html',
       controller: ['$scope',
         function ($scope) {
 

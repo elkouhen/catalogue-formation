@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Formation {
 
+	String id; 
+	
     String categorie;
 
     String titre;

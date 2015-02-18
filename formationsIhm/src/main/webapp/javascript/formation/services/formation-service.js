@@ -5,7 +5,7 @@
 
   var formationService = function ($resource) {
 
-    this.resource = $resource('services/formations');
+    this.resource = $resource('/formations/services/formations');
 
     this.listeFormations = function (acategorie) {
 
