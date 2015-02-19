@@ -1,0 +1,62 @@
+<!doctype html>
+<html ng-app="formationsApp">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Catalogue de Formations SOFTEAM</title>
+	<base href="">
+	<!-- build:css app.css -->
+	<link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.css" />
+	<!-- endbuild -->
+</head>
+
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/formations/tech-java-ee">Catalogue des Formations</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active" is-active link="/formations/tech-java-ee"><a href="/formations/tech-java-ee">Développement Java EE</a>
+					</li>
+					<li is-active link="/formations/tech-web"><a href="/formations/tech-web">Développement Web<span class="sr-only"></span></a>
+					</li>
+					<li is-active link="/formations/methodes-agiles"><a href="/formations/methodes-agiles">Méthodes Agiles<span class="sr-only"></span></a>
+					</li>
+					<li is-active link="/selection"><a href="/selection">Ma Sélection<span class="sr-only"></span></a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<oauth site="http://localhost:8080" client-id="my-trusted-client" redirect-uri="http://localhost/formations" scope="read write">
+	</oauth>
+	<div class="container">
+		<div ng-view></div>
+	</div>
+
+	<!-- build:js app.js -->
+	<script type="text/javascript" src="vendors/angular/angular.js"></script>
+	<script type="text/javascript" src="vendors/angular-route/angular-route.js"></script>
+	<script type="text/javascript" src="vendors/angular-resource/angular-resource.js"></script>
+	<script type="text/javascript" src="vendors/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
+	<script type="text/javascript" src="vendors/oauth-ng/dist/oauth-ng.js"></script>
+	<script type="text/javascript" src="vendors/ngstorage/ngStorage.js"></script>
+	<script type="text/javascript" src="javascript/index.js"></script>
+	<script type="text/javascript" src="javascript/directives/is-active.js"></script>
+	<script type="text/javascript" src="javascript/formation/formation-module.js"></script>
+	<script type="text/javascript" src="javascript/formation/services/formation-service.js"></script>
+	<script type="text/javascript" src="javascript/formation/controllers/formation-list-controller.js"></script>
+	<script type="text/javascript" src="javascript/formation/directives/formation-table-directive.js"></script>
+	<script type="text/javascript" src="javascript/formation/directives/formation-simple-table-directive.js"></script>
+	<!-- endbuild -->
+</body>
+
+</html>
