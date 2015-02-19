@@ -23,6 +23,6 @@
     "angularjs-jasmine-matchers": "*"
   },
   "dependencies": {
-    "oauth-ng": "~0.3.8"
+    "oauth-ng": "~0.3.7"
   }
 }

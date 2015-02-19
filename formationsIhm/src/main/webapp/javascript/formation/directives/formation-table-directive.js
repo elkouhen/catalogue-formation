@@ -1,33 +1,33 @@
 /*global angular */
 (function () {
-  'use strict';
+	'use strict';
 
-  var formationSimpleTable = function (formationService) {
-    return {
-      restrict: 'A',
-      scope: {
-        formations: '='
-      },
-      templateUrl: '/formations/partials/formations/directives/formation-table-directive.html',
-      controller: ['$scope',
+	var formationSimpleTable = function (formationService) {
+		return {
+			restrict: 'A',
+			scope: {
+				formations: '='
+			},
+			templateUrl: 'partials/formations/directives/formation-table-directive.html',
+			controller: ['$scope',
         function ($scope) {
 
-          $scope.getStatus = function (formation) {
+					$scope.getStatus = function (formation) {
 
-            if (formationService.getStatus(formation.id) === true) {
-              return 'glyphicon-star';
-            }
+						if (formationService.getStatus(formation.id) === true) {
+							return 'glyphicon-star';
+						}
 
-            return 'glyphicon-star-empty';
-          };
+						return 'glyphicon-star-empty';
+					};
 
-          $scope.toggleStatus = function (formation) {
+					$scope.toggleStatus = function (formation) {
 
-            formationService.toggleStatus(formation.id);
-          };
+						formationService.toggleStatus(formation.id);
+					};
       }]
-    };
-  };
+		};
+	};
 
-  angular.module('formations').directive('formationTable', ['formationService', formationSimpleTable]);
+	angular.module('formations').directive('formationTable', ['formationService', formationSimpleTable]);
 }());

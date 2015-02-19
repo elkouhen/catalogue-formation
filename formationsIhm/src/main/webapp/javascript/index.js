@@ -3,9 +3,9 @@
 
 	'use strict';
 
-	angular.module('formationsApp', ['ngRoute', 'ngResource', 'oauth', 'formations'])
-		.config(['$routeProvider', '$locationProvider',
-             function ($routeProvider, $locationProvider) {
+	angular.module('formationsApp', ['ngRoute', 'ngResource', 'formations'])
+		.config(['$routeProvider',
+             function ($routeProvider) {
 				$routeProvider.
 				when('/formations/:id', {
 					templateUrl: '/formations/partials/formations/formation-table.html',
@@ -18,11 +18,5 @@
 				otherwise({
 					redirectTo: '/formations/tech-java-ee'
 				});
-
-				$locationProvider.html5Mode({
-					enabled: true,
-					requireBase: false
-				}).hashPrefix('!');
-             }]);
-
+						 }]);
 }());

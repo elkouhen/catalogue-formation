@@ -1,15 +1,11 @@
 package com.softeam.formations.springconfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -62,21 +58,21 @@ class SecurityConfig {
 			// @formatter:off
 			clients.inMemory()
 					.withClient("my-trusted-client")
-					.authorizedGrantTypes("password", "authorization_code",
-							"refresh_token", "implicit")
+					.authorizedGrantTypes("implicit")
 					.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
 					.scopes("read", "write", "trust").resourceIds("formations")
 					.accessTokenValiditySeconds(60).and()
-					.withClient("my-client-with-registered-redirect")
-					.authorizedGrantTypes("authorization_code")
-					.authorities("ROLE_CLIENT").scopes("read", "trust")
-					.resourceIds("formations")
-					.redirectUris("http://localhost/formations/")
-					.secret("pascool").and()
-					.withClient("my-client-with-secret")
-					.authorizedGrantTypes("client_credentials", "password")
-					.authorities("ROLE_CLIENT").scopes("read")
-					.resourceIds("formations").secret("secret");
+			/*
+			 * .withClient("my-client-with-registered-redirect")
+			 * .authorizedGrantTypes("authorization_code")
+			 * .authorities("ROLE_CLIENT").scopes("read", "trust")
+			 * .resourceIds("formations")
+			 * .redirectUris("http://localhost/formations/")
+			 * .secret("pascool").and() .withClient("my-client-with-secret")
+			 * .authorizedGrantTypes("client_credentials", "password")
+			 * .authorities("ROLE_CLIENT").scopes("read")
+			 * .resourceIds("formations").secret("secret")
+			 */;
 			// @formatter:on
 		}
 	}

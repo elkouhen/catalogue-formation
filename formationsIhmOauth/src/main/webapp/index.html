@@ -22,13 +22,13 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active" is-active link="/formations/tech-java-ee"><a href="/formations/tech-java-ee">Développement Java EE</a>
+					<li class="active" is-active link="/formations/tech-java-ee"><a href="#/formations/tech-java-ee">Développement Java EE</a>
 					</li>
-					<li is-active link="/formations/tech-web"><a href="/formations/tech-web">Développement Web<span class="sr-only"></span></a>
+					<li is-active link="/formations/tech-web"><a href="#/formations/tech-web">Développement Web<span class="sr-only"></span></a>
 					</li>
-					<li is-active link="/formations/methodes-agiles"><a href="/formations/methodes-agiles">Méthodes Agiles<span class="sr-only"></span></a>
+					<li is-active link="/formations/methodes-agiles"><a href="#/formations/methodes-agiles">Méthodes Agiles<span class="sr-only"></span></a>
 					</li>
-					<li is-active link="/selection"><a href="/selection">Ma Sélection<span class="sr-only"></span></a>
+					<li is-active link="/selection"><a href="#/selection">Ma Sélection<span class="sr-only"></span></a>
 					</li>
 				</ul>
 			</div>
@@ -36,9 +36,10 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-	<oauth site="http://localhost:8080" client-id="my-trusted-client" redirect-uri="http://localhost/formations" scope="read write">
-	</oauth>
+
 	<div class="container">
+		<oauth ng-cloak site="http://localhost:8080" client-id="my-trusted-client" redirect-uri="http://localhost/formations/index.html" scope="read write">
+		</oauth>
 		<div ng-view></div>
 	</div>
 
