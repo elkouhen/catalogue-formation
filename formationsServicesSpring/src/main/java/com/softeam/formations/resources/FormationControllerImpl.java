@@ -3,6 +3,7 @@ package com.softeam.formations.resources;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,10 +29,10 @@ public class FormationControllerImpl {
 								.builder()
 								.id("2")
 								.titre("Découvrir les méthodes Agiles avec XP et Scrum")
-								.categorie("methodes-agiles").build(),
+								.categorie("methodes-agiles").date(new Date()).build(),
 						Formation.builder().id("3")
 								.titre("Développement HTML / JavaScript")
-								.categorie("tech-web").build());
+								.categorie("tech-web").date(new Date()).build());
 		return filter(liste, category);
 	}
 

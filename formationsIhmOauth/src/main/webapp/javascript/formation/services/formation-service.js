@@ -5,11 +5,11 @@
 
 	var formationService = function ($resource) {
 
-		this.resource = $resource('/formations/services/formations');
+		this.resource = $resource('services/formations');
 
 		this.listeFormations = function (params) {
 
-			if (params.categorie) {
+			if (params && params.categorie) {
 				return this.resource.query({
 					categorie: params.categorie
 				});

@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Catalogue de Formations SOFTEAM</title>
-	<base href="">
+	<base href="/formations">
 	<!-- build:css app.css -->
 	<link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.css" />
 	<!-- endbuild -->
@@ -38,8 +38,9 @@
 	</nav>
 
 	<div class="container">
-		<oauth ng-cloak site="http://localhost:8080" client-id="my-trusted-client" redirect-uri="http://localhost/formations/index.html" scope="read write">
+		<oauth site="http://localhost:8080" client-id="my-trusted-client" redirect-uri="http://localhost/formations/" scope="read write">
 		</oauth>
+
 		<div ng-view></div>
 	</div>
 
@@ -48,8 +49,8 @@
 	<script type="text/javascript" src="vendors/angular-route/angular-route.js"></script>
 	<script type="text/javascript" src="vendors/angular-resource/angular-resource.js"></script>
 	<script type="text/javascript" src="vendors/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
-	<script type="text/javascript" src="vendors/oauth-ng/dist/oauth-ng.js"></script>
 	<script type="text/javascript" src="vendors/ngstorage/ngStorage.js"></script>
+	<script type="text/javascript" src="vendors/oauth-ng/dist/oauth-ng.js"></script>
 	<script type="text/javascript" src="javascript/index.js"></script>
 	<script type="text/javascript" src="javascript/directives/is-active.js"></script>
 	<script type="text/javascript" src="javascript/formation/formation-module.js"></script>

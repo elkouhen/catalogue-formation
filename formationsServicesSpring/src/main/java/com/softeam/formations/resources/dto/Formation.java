@@ -1,5 +1,7 @@
 package com.softeam.formations.resources.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,4 +21,6 @@ public class Formation {
     String categorie;
 
     String titre;
+    
+    Date date; 
 }
