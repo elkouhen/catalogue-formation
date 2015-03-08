@@ -5,12 +5,15 @@
 	var AppConfig = function ($routeProvider, $locationProvider, $httpProvider) {
 
 		$routeProvider.
+		when('/login', {
+			templateUrl: 'partials/authentication/login.html'
+		}).
 		when('/formations/:id', {
-			templateUrl: '/formations/partials/formations/formation-table.html',
+			templateUrl: 'partials/formations/formation-table.html',
 			controller: 'FormationListController'
 		}).
 		when('/selection', {
-			templateUrl: '/formations/partials/formations/formation-simple-table.html',
+			templateUrl: 'partials/formations/formation-simple-table.html',
 			controller: 'FormationListController'
 		}).
 		when('/access_token=:accessToken', {
@@ -33,6 +36,9 @@
 			redirectTo: '/formations/tech-java-ee'
 		});
 
+		$httpProvider.defaults.useXDomain = true;
+		delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
 		$httpProvider.interceptors.push('oauthHttpInterceptor');
 
 		//$locationProvider.html5Mode(false);
@@ -41,11 +47,13 @@
 
 	var oauthHttpInterceptor = function (AccessToken) {
 		return {
-			request: function (config) {
+			'request': function (config) {
 				// This is just example logic, you could check the URL (for example)
-				if (config.headers.Authorization === 'Bearer') {
-					config.headers.Authorization = 'Bearer ' + AccessToken.get();
+				//if (config.headers.Authorization === 'Bearer') {
+				if (AccessToken.get()) {
+					config.headers['Authorization'] = 'Bearer ' + AccessToken.get().access_token;
 				}
+				//}
 				return config;
 			}
 		};

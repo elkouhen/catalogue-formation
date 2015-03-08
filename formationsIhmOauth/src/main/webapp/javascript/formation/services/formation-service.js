@@ -3,19 +3,26 @@
 
 	'use strict';
 
-	var formationService = function ($resource) {
+	var formationService = function ($resource, $http, AccessToken) {
 
-		this.resource = $resource('services/formations');
+		//this.resource = $resource('http://elkouhen-softeam-E6540:8080/services/formations');
+
 
 		this.listeFormations = function (params) {
 
-			if (params && params.categorie) {
+			/* if (params && params.categorie) {
 				return this.resource.query({
 					categorie: params.categorie
 				});
 			}
 
-			return this.resource.query();
+			return this.resource.query(); */
+
+			return $http.get('services/formations', {
+				'headers': {
+					'Authorization': 'coucou'
+				}
+			});
 		};
 
 		this.getStatus = function (id) {
@@ -35,5 +42,5 @@
 		};
 	};
 
-	angular.module('formations').service('formationService', ['$resource', formationService]);
+	angular.module('formations').service('formationService', ['$resource', '$http', 'AccessToken', formationService]);
 }());

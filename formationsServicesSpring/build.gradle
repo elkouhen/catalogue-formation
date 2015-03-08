@@ -13,8 +13,8 @@ buildscript {
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE'
         classpath 'org.springframework:springloaded:1.2.1'
-	classpath 'com.github.ben-manes:gradle-versions-plugin:0.7'
-	classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'	
+		classpath 'com.github.ben-manes:gradle-versions-plugin:0.7'
+		classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'	
     }
 }
 
@@ -30,7 +30,7 @@ repositories {
 dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-web') {
-        exclude module: 'spring-boot-starter-tomcat'
+        //exclude module: 'spring-boot-starter-tomcat'
     }
 
     compile 'org.springframework.boot:spring-boot-starter-jetty'

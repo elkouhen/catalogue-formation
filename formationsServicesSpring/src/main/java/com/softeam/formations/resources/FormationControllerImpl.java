@@ -6,7 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,12 @@ import com.softeam.formations.resources.dto.Formation;
 public class FormationControllerImpl {
 
 	@RequestMapping("/formations")
-	@PreAuthorize("#oauth2.clientHasRole('ROLE_USER')")
+	@Secured("ROLE_USER")
 	public Collection<Formation> index(
 			@RequestParam(value = "categorie", required = false) String category) {
+
+		Object auth = SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 
 		List<Formation> liste = Arrays
 				.asList(Formation.builder().id("1")
@@ -29,7 +33,8 @@ public class FormationControllerImpl {
 								.builder()
 								.id("2")
 								.titre("Découvrir les méthodes Agiles avec XP et Scrum")
-								.categorie("methodes-agiles").date(new Date()).build(),
+								.categorie("methodes-agiles").date(new Date())
+								.build(),
 						Formation.builder().id("3")
 								.titre("Développement HTML / JavaScript")
 								.categorie("tech-web").date(new Date()).build());

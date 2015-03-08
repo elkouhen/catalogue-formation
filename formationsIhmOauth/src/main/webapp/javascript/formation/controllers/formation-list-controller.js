@@ -6,8 +6,10 @@
 	var FormationListController = function ($scope, $rootScope, $routeParams, formationService, AccessToken) {
 
 		if ($routeParams.id) {
-			$scope.formations = formationService.listeFormations({
+			formationService.listeFormations({
 				categorie: $routeParams.id
+			}).then(function (response) {
+				$scope.formations = response.data;
 			});
 		} else {
 			$scope.formations = formationService.listeFormations();

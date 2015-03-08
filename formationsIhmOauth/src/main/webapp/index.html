@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Catalogue de Formations SOFTEAM</title>
-	<base href="/formations">
+	<!--base href="/formations"-->
 	<!-- build:css app.css -->
 	<link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.css" />
 	<!-- endbuild -->
@@ -38,7 +38,7 @@
 	</nav>
 
 	<div class="container">
-		<oauth site="http://localhost:8080" client-id="my-trusted-client" redirect-uri="http://localhost/formations/" scope="read write">
+		<oauth site="http://localhost:8080/bck" client-id="my-trusted-client" redirect-uri="http://localhost/app/" scope="read write">
 		</oauth>
 
 		<div ng-view></div>
