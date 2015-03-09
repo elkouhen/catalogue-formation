@@ -4,10 +4,6 @@ services:
    - formationsServices:/app
   ports:
    - "8090:3000"
-ambassador:
-  image: cpuguy83/docker-grand-ambassador
-  links:
-    - services:services
 ihm:
   build: formationsIhm
   volumes:

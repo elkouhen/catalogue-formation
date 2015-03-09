@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Formations</string>
+    <string name="title_dev_javaee">Développement Java EE</string>
+    <string name="title_dev_web">Développement Web</string>
+    <string name="title_methodes_agiles">Méthodes agiles</string>
+    <string name="title_ma_selection">Ma sélection</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
