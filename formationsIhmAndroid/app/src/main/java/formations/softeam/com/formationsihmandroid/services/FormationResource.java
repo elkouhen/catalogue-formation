@@ -7,10 +7,11 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 
 import java.util.List;
 
+import formations.softeam.com.formationsihmandroid.services.dto.Formation;
+
 @Rest(rootUrl = "http://192.168.1.88:3000/formations", converters = {MappingJacksonHttpMessageConverter.class})
 public interface FormationResource extends RestClientErrorHandling {
 
-    // OK
     @Get("")
     List<Formation> findAll();
 }
