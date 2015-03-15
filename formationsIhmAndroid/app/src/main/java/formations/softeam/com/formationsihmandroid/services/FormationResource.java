@@ -12,6 +12,6 @@ import formations.softeam.com.formationsihmandroid.services.dto.Formation;
 @Rest(rootUrl = "http://192.168.1.88:3000/formations", converters = {MappingJacksonHttpMessageConverter.class})
 public interface FormationResource extends RestClientErrorHandling {
 
-    @Get("")
-    List<Formation> findAll();
+    @Get("/?categorie={category}")
+    List<Formation> findAll(String category);
 }

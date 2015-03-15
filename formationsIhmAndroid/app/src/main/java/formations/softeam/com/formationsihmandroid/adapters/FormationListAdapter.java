@@ -1,5 +1,6 @@
 package formations.softeam.com.formationsihmandroid.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import org.androidannotations.annotations.rest.RestService;
 import java.util.ArrayList;
 import java.util.List;
 
+import formations.softeam.com.formationsihmandroid.activities.MainActivity;
+import formations.softeam.com.formationsihmandroid.helpers.CategoryConverter;
 import formations.softeam.com.formationsihmandroid.services.dto.Formation;
 import formations.softeam.com.formationsihmandroid.services.FormationResource;
 import formations.softeam.com.formationsihmandroid.views.FormationItemView;
@@ -31,11 +34,24 @@ public class FormationListAdapter extends BaseAdapter {
     @RootContext
     Context context;
 
+    @RootContext
+    Activity activity;
+
     @Background
     void search() {
-        formations = formationResource.findAll();
-        resetView();
+
+        if (activity instanceof MainActivity){
+            MainActivity mainActivity = (MainActivity) activity;
+
+            int categorie = mainActivity.getCategory();
+
+            formations = formationResource.findAll(new CategoryConverter().converterToLabel(categorie));
+
+            resetView();
+        }
     }
+
+
 
     @AfterViews
     void initAdapter() {

@@ -19,6 +19,9 @@ public class FormationItemView extends LinearLayout {
     @ViewById
     TextView categoryView;
 
+    @ViewById
+    TextView dureeView;
+
     public FormationItemView(Context context) {
         super(context);
     }
@@ -26,5 +29,6 @@ public class FormationItemView extends LinearLayout {
     public void bind(Formation person) {
         titreView.setText(person.getTitre());
         categoryView.setText(person.getCategorie());
+        dureeView.setText(person.getDuree());
     }
 }

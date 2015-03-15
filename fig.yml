@@ -11,7 +11,7 @@ ihm:
   ports:
    - "8080:80"
   links:
-   - ambassador:services
+   - services:services
 ihmmobile:
   build: formationsIhmIonic
   volumes:
@@ -19,4 +19,4 @@ ihmmobile:
   ports:
    - "8081:80"
   links:
-   - ambassador:services
+   - services:services

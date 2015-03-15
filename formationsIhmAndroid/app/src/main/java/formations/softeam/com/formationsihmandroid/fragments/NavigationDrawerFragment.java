@@ -22,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.EFragment;
+
 import formations.softeam.com.formationsihmandroid.R;
 
 /**
@@ -29,6 +31,7 @@ import formations.softeam.com.formationsihmandroid.R;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
+@EFragment
 public class NavigationDrawerFragment extends Fragment {
 
     /**
@@ -99,15 +102,14 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+        mDrawerListView.setAdapter(new ArrayAdapter<>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
-                        getString(R.string.title_dev_javaee),
-                        getString(R.string.title_dev_web),
-                        getString(R.string.title_methodes_agiles),
-                        getString(R.string.title_ma_selection)
+                        getString(R.string.tech_dev_javaee),
+                        getString(R.string.tech_dev_web),
+                        getString(R.string.methodes_agiles)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -265,7 +267,6 @@ public class NavigationDrawerFragment extends Fragment {
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
     }
 

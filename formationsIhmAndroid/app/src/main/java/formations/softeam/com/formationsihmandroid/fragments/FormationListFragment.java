@@ -10,9 +10,9 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import formations.softeam.com.formationsihmandroid.adapters.FormationListAdapter;
 import formations.softeam.com.formationsihmandroid.R;
 import formations.softeam.com.formationsihmandroid.activities.MainActivity;
+import formations.softeam.com.formationsihmandroid.adapters.FormationListAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -34,6 +34,7 @@ public class FormationListFragment extends Fragment {
     FormationListAdapter adapter;
 
     public FormationListFragment() {
+
     }
 
     /**
