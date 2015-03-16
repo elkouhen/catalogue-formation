@@ -5,27 +5,21 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/titreView"
+        android:id="@+id/titre"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Titre"
         android:textColor="@android:color/black" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
 
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.90"
-           >
-
             <TextView
-                android:id="@+id/categoryView"
+                android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category" />
@@ -35,25 +29,20 @@
                 android:layout_height="0dp" />
 
             <TextView
-                android:id="@+id/dureeView"
+                android:id="@+id/duree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Durée" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.10"
-            >
+            <Space
+                android:layout_width="30dp"
+                android:layout_height="0dp"  />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/select"
                 style="?android:attr/starStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

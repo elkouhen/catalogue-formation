@@ -5,6 +5,9 @@ package formations.softeam.com.formationsihmandroid.services.dto;
  */
 public class Formation {
 
+
+    boolean selected;
+
     String id;
 
     String titre;
@@ -44,6 +47,14 @@ public class Formation {
 
     public void setDuree(String duree) {
         this.duree = duree;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
 }

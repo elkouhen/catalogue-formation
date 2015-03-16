@@ -18,8 +18,8 @@ import java.util.List;
 
 import formations.softeam.com.formationsihmandroid.activities.MainActivity;
 import formations.softeam.com.formationsihmandroid.helpers.CategoryConverter;
-import formations.softeam.com.formationsihmandroid.services.dto.Formation;
 import formations.softeam.com.formationsihmandroid.services.FormationResource;
+import formations.softeam.com.formationsihmandroid.services.dto.Formation;
 import formations.softeam.com.formationsihmandroid.views.FormationItemView;
 import formations.softeam.com.formationsihmandroid.views.FormationItemView_;
 
@@ -40,7 +40,7 @@ public class FormationListAdapter extends BaseAdapter {
     @Background
     void search() {
 
-        if (activity instanceof MainActivity){
+        if (activity instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) activity;
 
             int categorie = mainActivity.getCategory();
@@ -51,8 +51,6 @@ public class FormationListAdapter extends BaseAdapter {
         }
     }
 
-
-
     @AfterViews
     void initAdapter() {
         search();
@@ -60,7 +58,7 @@ public class FormationListAdapter extends BaseAdapter {
 
     @UiThread
     void resetView() {
-        notifyDataSetChanged();
+        notifyDataSetInvalidated();
     }
 
     @Override
@@ -77,6 +75,7 @@ public class FormationListAdapter extends BaseAdapter {
 
         return FormationItemView;
     }
+
 
     @Override
     public int getCount() {

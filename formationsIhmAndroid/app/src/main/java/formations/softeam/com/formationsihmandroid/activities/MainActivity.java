@@ -4,9 +4,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -34,7 +31,7 @@ public class MainActivity extends ActionBarActivity
 
     @AfterViews
     public void afterView() {
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,drawer);
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawer);
     }
 
     @Override
@@ -64,7 +61,7 @@ public class MainActivity extends ActionBarActivity
 
     }
 
-   public void restoreActionBar() {
+    public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);

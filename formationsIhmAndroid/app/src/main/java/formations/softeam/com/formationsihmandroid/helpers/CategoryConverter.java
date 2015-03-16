@@ -10,11 +10,9 @@ public class CategoryConverter {
 
         if (categorie == 1) {
             category = "tech-java-ee";
-        }
-        else if (categorie == 2) {
+        } else if (categorie == 2) {
             category = "tech-web";
-        }
-        else if (categorie == 3) {
+        } else if (categorie == 3) {
             category = "methodes-agiles";
         }
         return category;
