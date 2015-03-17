@@ -1,0 +1,1 @@
+/home/elkouhen/opt/sonar-runner-2.4/bin/sonar-runner -Dsonar.projectKey=formationsIhm -Dsonar.projectVersion=1.0.0 -Dsonar.sources=src/main/webapp/ -Dsonar.projectName=formationsIhm -Dsonar.exclusions=src/main/webapp/vendors/**/*.*
