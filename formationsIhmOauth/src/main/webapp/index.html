@@ -31,15 +31,22 @@
 					<li is-active link="/selection"><a href="#/selection">Ma Sélection<span class="sr-only"></span></a>
 					</li>
 				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<oauth site="http://localhost:8080/bck" client-id="my-trusted-client" redirect-uri="http://localhost/app/" scope="read write">
+						</oauth>
+					</li>
+				</ul>
 			</div>
+
+
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
 
 	<div class="container">
-		<oauth site="http://localhost:8080/bck" client-id="my-trusted-client" redirect-uri="http://localhost/app/" scope="read write">
-		</oauth>
+
 
 		<div ng-view></div>
 	</div>
