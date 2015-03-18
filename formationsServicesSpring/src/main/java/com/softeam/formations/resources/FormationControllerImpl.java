@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +21,6 @@ public class FormationControllerImpl {
 	@Secured("ROLE_USER")
 	public Collection<Formation> index(
 			@RequestParam(value = "categorie", required = false) String category) {
-
-		Object auth = SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
 
 		List<Formation> liste = Arrays
 				.asList(Formation.builder().id("1")
@@ -44,9 +41,10 @@ public class FormationControllerImpl {
 	private Collection<Formation> filter(List<Formation> formations,
 			String category) {
 
-		if (category == null || category.equals("")) {
+		if (StringUtils.isEmpty(category)) {
 			return formations;
 		}
+
 		Collection<Formation> result = new ArrayList<Formation>();
 
 		for (Formation formation : formations) {

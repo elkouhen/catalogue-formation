@@ -34,7 +34,7 @@ describe('La vue tech-java-ee', function () {
       return formationSpan.getAttribute('class');
     }).then(function (statusAfter) {
       expect(statusAfter).not.toEqual(statusBefore);
-    });;
+    });
 
   });
 });

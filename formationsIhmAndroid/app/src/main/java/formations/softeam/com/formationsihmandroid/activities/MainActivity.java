@@ -57,6 +57,8 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 mTitle = getString(R.string.methodes_agiles);
                 break;
+            default:
+                mTitle = "undefined";
         }
 
     }

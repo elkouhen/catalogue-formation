@@ -64,16 +64,16 @@ public class FormationListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        FormationItemView FormationItemView;
+        FormationItemView formationItemView;
         if (convertView == null) {
-            FormationItemView = FormationItemView_.build(context);
+            formationItemView = FormationItemView_.build(context);
         } else {
-            FormationItemView = (formations.softeam.com.formationsihmandroid.views.FormationItemView) convertView;
+            formationItemView = (formations.softeam.com.formationsihmandroid.views.FormationItemView) convertView;
         }
 
-        FormationItemView.bind(getItem(position));
+        formationItemView.bind(getItem(position));
 
-        return FormationItemView;
+        return formationItemView;
     }
 
 

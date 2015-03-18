@@ -1,0 +1,14 @@
+cd formationsIhm
+sh sonar-run.sh
+cd ../formationsIhmAndroid
+sh sonar-run.sh
+cd ../formationsIhmIonic
+sh sonar-run.sh
+cd ../formationsIhmOauth
+sh sonar-run.sh
+cd ../formationsIhmTaunus
+sh sonar-run.sh
+cd ../formationsServices
+sh sonar-run.sh
+cd ../formationsServicesSpring
+sh sonar-run.sh

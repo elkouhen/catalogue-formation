@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var FormationListController = function ($scope, $rootScope, $routeParams, formationService, AccessToken) {
+	var FormationListController = function ($scope, $rootScope, $routeParams, formationService) {
 
 		if ($routeParams.id) {
 			formationService.listeFormations({
@@ -18,5 +18,5 @@
 
 
 	angular.module('formations')
-		.controller('FormationListController', ['$scope', '$rootScope', '$routeParams', 'formationService', 'AccessToken', FormationListController]);
+		.controller('FormationListController', ['$scope', '$rootScope', '$routeParams', 'formationService', FormationListController]);
 }());

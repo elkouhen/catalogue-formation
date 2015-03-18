@@ -49,7 +49,7 @@ public class FormationItemView extends LinearLayout {
         select.setChecked(person.isSelected());
     }
 
-    @Click((R.id.select))
+    @Click(R.id.select)
     void select() {
 
         SharedPreferences sharedPreferences = this.getContext().getSharedPreferences("formation_prefs", Context.MODE_PRIVATE);

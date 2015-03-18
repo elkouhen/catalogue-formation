@@ -21,7 +21,7 @@
 			controller: function ($location, AccessToken) {
 				var hash = $location.path().substr(1);
 
-				var patt = /expires_in=(.*)/
+				var patt = /expires_in=(.*)/;
 
 				var expires_in = hash.match(patt)[1];
 
@@ -41,19 +41,16 @@
 
 		$httpProvider.interceptors.push('oauthHttpInterceptor');
 
-		//$locationProvider.html5Mode(false);
-
 	};
 
 	var oauthHttpInterceptor = function (AccessToken) {
 		return {
 			'request': function (config) {
 				// This is just example logic, you could check the URL (for example)
-				//if (config.headers.Authorization === 'Bearer') {
 				if (AccessToken.get()) {
-					config.headers['Authorization'] = 'Bearer ' + AccessToken.get().access_token;
+					config.headers.Authorization = 'Bearer ' + AccessToken.get().access_token;
 				}
-				//}
+
 				return config;
 			}
 		};

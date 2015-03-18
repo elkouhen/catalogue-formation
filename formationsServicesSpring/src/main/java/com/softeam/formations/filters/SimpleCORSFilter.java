@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SimpleCORSFilter implements Filter {
 
+	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) res;
@@ -24,9 +25,11 @@ public class SimpleCORSFilter implements Filter {
 		chain.doFilter(req, res);
 	}
 
+	@Override
 	public void init(FilterConfig filterConfig) {
 	}
 
+	@Override
 	public void destroy() {
 	}
 }
